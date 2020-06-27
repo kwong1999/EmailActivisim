@@ -1,11 +1,12 @@
 const Connection = require('tedious').Connection;
 const Request = require('tedious').Request;
+require('dotenv').config();
 
 const config = {
     authentication: {
         options: {
-            userName: '<redacted>',
-            password: '<redacted>'
+            userName: process.env.SERVER_USERNAME,
+            password: process.env.SERVER_PASSWORD
         },
         type: "default"
     },
@@ -21,30 +22,38 @@ connection.on('connect', err => {
     err ? console.log(err) : executeStatement();
 });
 
-const query = 'CREATE TABLE Templates (' +
-    'TemplateId INT AUTO_INCREMENT,' +
-    'Recipient varchar(320),' +
-    'Subject varchar(998),' +
-    'Body varchar(max) not null,' +
-    'primary key(TemplateId)' +
-    ');';
+const insert = 'INSERT INTO TemplateSchema.Templates (Recipient, SubjectLine, Body) VALUES(N\'test_recipient\', N\'test subject\', N\'test body\');';
+const select = 'select * from TemplateSchema.Templates;';
 
-const insert = 'insert into Templates (Body) values (\'body\');';
-const select = 'select * from Templates;';
-
-const list = 'select schema_name(t.schema_id) as schema_name, t.name as table_name, t.create_date, t.modify_date from sys.tables t order by schema_name, table_name;'
-
-const executeStatement = () => {
-    const request = new Request(query, err => {
-        err ? console.log(err) : console.log('Success');
+const executeQuery = query => {
+    let selectRequest = new Request(query, selectErr => {
+        if (selectErr) {
+            console.log(selectErr);
+        } else {
+            console.log('Select success');
+        }
     });
 
-    request.on("row", columns => {
-        console.log('...');
+    selectRequest.on("row", columns => {
         columns.forEach(column => {
             console.log("%s\t%s", column.metadata.colName, column.value);
         });
     });
 
-    connection.execSql(request);
+    connection.execSql(selectRequest);
+}
+
+const executeStatement = () => {
+    /*let request = new Request(insert, err => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log('Insert success');
+            executeQuery(select);
+        }
+    });
+
+    connection.execSql(request);*/
+
+    executeQuery(select);
 }
