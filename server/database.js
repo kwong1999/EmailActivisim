@@ -1,5 +1,7 @@
 const Connection = require('tedious').Connection;
 const Request = require('tedious').Request;
+const TYPES = require('tedious').TYPES;
+
 require('dotenv').config();
 
 const config = {
@@ -39,19 +41,25 @@ const executeQuery = (query, onError, onCompletion) => {
         });
     });
 
-    connection.execSql(selectRequest);
+    connection.execSql(request);
 }
 
-exports.addTemplate = (template) => {
-    return new Promise((resolve, reject) => {
-
+const insert = 'INSERT INTO TemplateSchema.Templates (Recipient, SubjectLine, Body) VALUES (@recipient, @subjectLine, @body);'
+exports.addTemplate = (template, onError, onCompletion) => {
+    let request = new Request(insert, err => {
+        err ? onError(err) : onCompletion()
     });
+    request.addParameter('recipient', TYPES.VarChar, template.recipient);
+    request.addParameter('subjectLine', TYPES.VarChar, template.subjectLine);
+    request.addParameter('body', TYPES.VarChar, template.body);
+    connection.execSql(request);
+    // TODO: capture & return template id?
 }
 
 exports.getTemplate = (id, onError, onCompletion) => {
-    onCompletion(id);
+    
 }
 
-exports.getTemplates = (max) => {
+exports.getTemplates = (max, onError, onCompletion) => {
 
 }

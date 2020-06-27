@@ -2,8 +2,12 @@ const database = require('./database');
 const express = require('express');
 const app = express();
 
-app.get("/orders", (req, res, next) => {
-    res.json(["Orange","Apple","Watermellon"]);
+app.post('/template', (req, res, next) => {
+    database.addTemplate(req.body, err => {
+        res.status(404).send(err);
+    }, () => {
+        res.sendStatus(200);
+    });
 });
 
 app.get('/template', (req, res, next) => {
