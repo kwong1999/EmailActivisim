@@ -1,5 +1,5 @@
 #mainContainer {
-  width: 500px;
+  width: screenwidth;
   padding: 0px 15px 15px 15px;
   border-radius: 5px;
   font-family: arial;
@@ -14,12 +14,21 @@ textarea {
   border: solid 1px #BDC7D8;
 }
 
+.header {
+  background-image: url('https://images.idgesg.net/images/article/2017/05/puzzle_problem_challenge_teamwork_partnership_strategy_cooperation_collaboration_thinkstock_626246166-100724504-large.3x2.jpg');
+  color: #ffffff;
+  font-family: monospace;
+}
+
 .button {
   background-color: #313335;
   font-weight: bold;
   padding: 12px 15px;
   color: #ffffff;
   margin-right: 50px;
+}
+.sendEmail {
+  font-family: monospace;
 }
 
 .errorMsg {
@@ -33,7 +42,10 @@ textarea {
 }
 #display-data{
 margin-top:12px;
+margin-left: 270px;
+margin-right: 270px;
 background: #e5e5e5;
-padding:1px;
+padding:10px;
+font-family: monospace;
 
 }
