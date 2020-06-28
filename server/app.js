@@ -15,6 +15,11 @@ app.get('/', (req, res, next) => {
 
 // Create new template
 app.post('/template', (req, res, next) => {
+    if (!req.body) {
+        res.status(404).send('Body missing from request');
+        return;
+    }
+
     const timeout = setTimeout(() => {
         res.sendStatus(408);
     }, TIMEOUT);
@@ -30,6 +35,11 @@ app.post('/template', (req, res, next) => {
 
 // Get template by id
 app.get('/template', (req, res, next) => {
+    if (!req.query || !req.query.id || isNaN(req.query.id)) {
+        res.status(404).send('Parameter missing from request');
+        return;
+    }
+
     const timeout = setTimeout(() => {
         res.sendStatus(408);
     }, TIMEOUT);
@@ -45,6 +55,11 @@ app.get('/template', (req, res, next) => {
 
 // Get max n templates
 app.get('/templates', (req, res, next) => {
+    if (!req.query || !req.query.max || isNaN(req.query.max)) {
+        res.status(404).send('Parameter missing from request');
+        return;
+    }
+
     const timeout = setTimeout(() => {
         res.sendStatus(408);
     }, TIMEOUT);

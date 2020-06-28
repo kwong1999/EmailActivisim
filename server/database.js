@@ -39,11 +39,23 @@ exports.addTemplate = (template, onError, onCompletion) => {
     let request = new Request(insert, err => {
         err ? onError(err) : onCompletion()
     });
-    request.addParameter('recipient', TYPES.VarChar, template.recipient);
-    request.addParameter('subjectLine', TYPES.VarChar, template.subjectLine);
-    request.addParameter('body', TYPES.VarChar, template.body);
-    request.addParameter('description', TYPES.VarChar, template.description);
-    request.addParameter('link', TYPES.VarChar, template.link);
+
+    const recipient = template.recipient;
+    const subjectLine = template.subjectLine;
+    const body = template.body;
+    const description = template.description;
+    const link = template.link;
+
+    if (!recipient || !subjectLine || !body || !description || !link) {
+        onError('Missing required fields');
+        return;
+    }
+
+    request.addParameter('recipient', TYPES.VarChar, recipient);
+    request.addParameter('subjectLine', TYPES.VarChar, subjectLine);
+    request.addParameter('body', TYPES.VarChar, body);
+    request.addParameter('description', TYPES.VarChar, description);
+    request.addParameter('link', TYPES.VarChar, link);
 
     while (!didConnect) {}
 

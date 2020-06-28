@@ -1,6 +1,7 @@
 import React from 'react';
 import './style.css';
 
+const API = 'http://caihackemailactivism.azurewebsites.net';
 
 class Form extends React.Component {
 
@@ -28,7 +29,7 @@ class Form extends React.Component {
   };
 
   async componentDidMount(){
-    let response = await fetch('http://caihackemailactivism.azurewebsites.net/templates?max=10');
+    let response = await fetch(API + '/templates?max=10');
     let templates = await response.json();
     console.log(templates);
 
@@ -45,8 +46,25 @@ class Form extends React.Component {
 
   }
 
-  post() {
+  async post() {
     var link = "mailto:" + this.state.recipient + "?subject=" + this.state.subject + "&body=" + this.state.emailBody;
+
+    let response = await fetch(API + '/template', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify({
+        recipient: this.state.recipient,
+        subjectLine: this.state.subject,
+        body: this.state.emailBody,
+        description: this.state.description,
+        link: link
+      })
+    });
+
+    alert(response.status);
+
     this.displayData.unshift(<div id="display-data"><pre>To: <b>{this.state.recipient}</b> </pre><pre>{this.state.description}</pre><a href={link}>Send Email</a></div>);
     this.setState({
       showdata : this.displayData,
