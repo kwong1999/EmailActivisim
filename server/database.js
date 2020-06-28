@@ -32,6 +32,8 @@ connection.on('connect', err => {
     }
 });
 
+
+
 const insert = 'INSERT INTO TemplateSchema.Templates (Recipient, SubjectLine, Body, Description, Link) VALUES (@recipient, @subjectLine, @body, @description, @link);'
 exports.addTemplate = (template, onError, onCompletion) => {
     let request = new Request(insert, err => {
@@ -88,7 +90,6 @@ exports.getTemplates = (max, onError, onCompletion) => {
         for (const column of columns) {
             template[column.metadata.colName] = column.value;
         }
-        console.log(template);
         templates.push(template);
     });
 
