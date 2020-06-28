@@ -28,11 +28,11 @@ class Form extends React.Component {
   };
 
   componentDidMount(){
-    /*fetch('http://caihackemailactivism.azurewebsites.net/templates?max=10')
-    .then(response => {
-      const data = response.json();
-    })
-    .then(data => alert(data));*/
+    fetch('http://caihackemailactivism.azurewebsites.net/templates?max=10')
+    .then(async response => {
+      let json = await response.json();
+      console.log(json);
+    });
 
     var data = '[{"TemplateId":1,"Recipient":"Recip1","SubjectLine":"subj1","Body":"yeehaw","Description":"desc1","Link":"something"},{"TemplateId":2,"Recipient":"elaine","SubjectLine":"wefbwf","Body":"yeehaw2","Description":"desc2","Link":"google.com"}]';
     
