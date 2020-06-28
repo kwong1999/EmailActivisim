@@ -32,7 +32,21 @@ connection.on('connect', err => {
     }
 });
 
+const TIMEOUT = 3000; // 3 seconds
+const waitForConnect = () => {
+    let timedOut = false;
+    const timeout = setTimeout(() => {
+        timedOut = true;
+    }, TIMEOUT);
 
+    while (!didConnect) {
+        if (timedOut) {
+            onError('Timed out waiting to connect to database');
+            return;
+        }
+    }
+    clearTimeout(timeout);
+}
 
 const insert = 'INSERT INTO TemplateSchema.Templates (Recipient, SubjectLine, Body, Description, Link) VALUES (@recipient, @subjectLine, @body, @description, @link);'
 exports.addTemplate = (template, onError, onCompletion) => {
@@ -57,8 +71,7 @@ exports.addTemplate = (template, onError, onCompletion) => {
     request.addParameter('description', TYPES.VarChar, description);
     request.addParameter('link', TYPES.VarChar, link);
 
-    while (!didConnect) {}
-
+    waitForConnect();
     connection.execSql(request);
     // TODO: capture & return template id?
 }
@@ -80,8 +93,7 @@ exports.getTemplate = (id, onError, onCompletion) => {
         onCompletion(template);
     });
 
-    while (!didConnect) {}
-
+    waitForConnect();
     connection.execSql(request);
 }
 
@@ -105,7 +117,6 @@ exports.getTemplates = (max, onError, onCompletion) => {
         templates.push(template);
     });
 
-    while (!didConnect) {}
-
+    waitForConnect();
     connection.execSql(request);
 }

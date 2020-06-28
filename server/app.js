@@ -20,15 +20,9 @@ app.post('/template', (req, res, next) => {
         return;
     }
 
-    const timeout = setTimeout(() => {
-        res.sendStatus(408);
-    }, TIMEOUT);
-
     database.addTemplate(req.body, err => {
-        clearTimeout(timeout);
         res.status(404).send(err);
     }, () => {
-        clearTimeout(timeout);
         res.sendStatus(200);
     });
 });
@@ -40,15 +34,9 @@ app.get('/template', (req, res, next) => {
         return;
     }
 
-    const timeout = setTimeout(() => {
-        res.sendStatus(408);
-    }, TIMEOUT);
-
     database.getTemplate(req.query.id, err => {
-        clearTimeout(timeout);
         res.status(404).send(err);
     }, template => {
-        clearTimeout(timeout);
         res.send(template);
     });
 });
@@ -60,15 +48,9 @@ app.get('/templates', (req, res, next) => {
         return;
     }
 
-    const timeout = setTimeout(() => {
-        res.sendStatus(408);
-    }, TIMEOUT);
-
     database.getTemplates(req.query.max, err => {
-        clearTimeout(timeout);
         res.status(404).send(err);
     }, templates => {
-        clearTimeout(timeout);
         res.send(templates);
     });
 });
