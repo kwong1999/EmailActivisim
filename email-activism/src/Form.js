@@ -39,7 +39,7 @@ class Form extends React.Component {
     var templates = JSON.parse(data);
 
     for(var i in templates){
-      this.displayData.unshift(<div id="display-data"><pre>To:{templates[i].Recipient}</pre><pre>{templates[i].Description}</pre><a href={templates[i].Link}>Send Email</a></div>);
+      this.displayData.unshift(<div id="display-data"><pre>To:<b>{templates[i].Recipient}</b></pre><pre>{templates[i].Description}</pre><a href={templates[i].Link}><button className="sendEmail">Send Email</button></a></div>);
     }
     this.setState({
       showdata : this.displayData,
@@ -50,7 +50,7 @@ class Form extends React.Component {
 
   post() {
     var link = "mailto:" + this.state.recipient + "?subject=" + this.state.subject + "&body=" + this.state.emailBody;
-    this.displayData.unshift(<div id="display-data"><pre>To: {this.state.recipient}</pre><pre>{this.state.description}</pre><a href={link}>Send Email</a></div>);
+    this.displayData.unshift(<div id="display-data"><pre>To: <b>{this.state.recipient}</b> </pre><pre>{this.state.description}</pre><a href={link}>Send Email</a></div>);
     this.setState({
       showdata : this.displayData,
       description : ""
@@ -84,16 +84,19 @@ class Form extends React.Component {
 
   render() {
     return (
-      <div id="mainContainer">
-      <textarea rows="1" cols="50" placeholder="Recipient" value={this.state.recipient} onChange={this.handleChangeRecipient} ></textarea>
-      <textarea rows="1" cols="50" placeholder="Subject" value={this.state.subject} onChange={this.handleChangeSubject} ></textarea>
-      <textarea rows="3" cols="50" placeholder="Description" value={this.state.description} onChange={this.handleChangeDescription} ></textarea>
-      <textarea rows="10" cols="50" placeholder="Body" value={this.state.emailBody} onChange={this.handleChangeEmailBody} ></textarea>
-      <div >
-      <input  type="submit" className="button" onClick={this.post}   value="Post"/>
+      <div>
+        <header className="header" style={{textAlign: 'center'}}> <div style={{height: '50px'}}></div><span style={{fontSize: 50}}>Make Your Voice Heard</span><div style={{height: '50px'}}></div></header>
+      <div id="mainContainer" style={{textAlign: 'center'}}>
+      <textarea rows="1" cols="100" placeholder="Recipient" value={this.state.recipient} onChange={this.handleChangeRecipient} ></textarea>
+      <textarea rows="1" cols="100" placeholder="Subject" value={this.state.subject} onChange={this.handleChangeSubject} ></textarea>
+      <textarea rows="3" cols="100" placeholder="Description" value={this.state.description} onChange={this.handleChangeDescription} ></textarea>
+      <textarea rows="10" cols="100" placeholder="Body" value={this.state.emailBody} onChange={this.handleChangeEmailBody} ></textarea>
+      <div>
+      <input  type="submit" className="button" onClick={this.post} value="Post"/>
       </div>
       <div id="display-data-Container">
       {this.displayData}
+      </div>
       </div>
       </div>
     );
