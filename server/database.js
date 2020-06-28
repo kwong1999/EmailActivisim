@@ -69,6 +69,28 @@ exports.getTemplate = (id, onError, onCompletion) => {
     connection.execSql(request);
 }
 
+const select = 'select top(@max) * from TemplateSchema.Templates';
 exports.getTemplates = (max, onError, onCompletion) => {
+    let templates = [];
+    let request = new Request(select, err => {
+        if (err) {
+            onError(err);
+        } else {
+            onCompletion(templates);
+        }
+    });
+    request.addParameter('max', TYPES.Int, max);
 
+    request.on('row', columns => {
+        let template = {};
+        for (const column of columns) {
+            template[column.metadata.colName] = column.value;
+        }
+        console.log(template);
+        templates.push(template);
+    });
+
+    while (!didConnect) {}
+
+    connection.execSql(request);
 }

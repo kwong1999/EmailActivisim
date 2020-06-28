@@ -22,7 +22,11 @@ app.get('/template', (req, res, next) => {
 
 // Get max n templates
 app.get('/templates', (req, res, next) => {
-    
+    database.getTemplates(req.query.max, err => {
+        res.status(404).send(err);
+    }, templates => {
+        res.send(templates);
+    });
 });
 
 module.exports = app;
