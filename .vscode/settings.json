@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/e4e00c21-a9b3-4433-b5c5-c15d8c98e70a/resourceGroups/Hackathon/providers/Microsoft.Web/sites/caihackemailactivism",
+    "appService.deploySubpath": "server"
+}

@@ -32,7 +32,7 @@ connection.on('connect', err => {
     }
 });
 
-const insert = 'INSERT INTO TemplateSchema.Templates (Recipient, SubjectLine, Body) VALUES (@recipient, @subjectLine, @body);'
+const insert = 'INSERT INTO TemplateSchema.Templates (Recipient, SubjectLine, Body, Description, Link) VALUES (@recipient, @subjectLine, @body, @description, @link);'
 exports.addTemplate = (template, onError, onCompletion) => {
     let request = new Request(insert, err => {
         err ? onError(err) : onCompletion()
@@ -40,6 +40,8 @@ exports.addTemplate = (template, onError, onCompletion) => {
     request.addParameter('recipient', TYPES.VarChar, template.recipient);
     request.addParameter('subjectLine', TYPES.VarChar, template.subjectLine);
     request.addParameter('body', TYPES.VarChar, template.body);
+    request.addParameter('description', TYPES.VarChar, template.description);
+    request.addParameter('link', TYPES.VarChar, template.link);
 
     while (!didConnect) {}
 
