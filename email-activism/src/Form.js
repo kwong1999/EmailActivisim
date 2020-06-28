@@ -27,16 +27,13 @@ class Form extends React.Component {
 
   };
 
-  componentDidMount(){
-    fetch('http://caihackemailactivism.azurewebsites.net/templates?max=10')
-    .then(async response => {
-      let json = await response.json();
-      console.log(json);
-    });
+  async componentDidMount(){
+    let response = await fetch('http://caihackemailactivism.azurewebsites.net/templates?max=10');
+    let templates = await response.json();
+    console.log(templates);
 
-    var data = '[{"TemplateId":1,"Recipient":"Recip1","SubjectLine":"subj1","Body":"yeehaw","Description":"desc1","Link":"something"},{"TemplateId":2,"Recipient":"elaine","SubjectLine":"wefbwf","Body":"yeehaw2","Description":"desc2","Link":"google.com"}]';
-    
-    var templates = JSON.parse(data);
+    //var data = '[{"TemplateId":1,"Recipient":"Recip1","SubjectLine":"subj1","Body":"yeehaw","Description":"desc1","Link":"something"},{"TemplateId":2,"Recipient":"elaine","SubjectLine":"wefbwf","Body":"yeehaw2","Description":"desc2","Link":"google.com"}]';
+    //var templates = JSON.parse(data);
 
     for(var i in templates){
       this.displayData.unshift(<div id="display-data"><pre>To:<b>{templates[i].Recipient}</b></pre><pre>{templates[i].Description}</pre><a href={templates[i].Link}><button className="sendEmail">Send Email</button></a></div>);
