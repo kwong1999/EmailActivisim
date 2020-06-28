@@ -1,7 +1,7 @@
 import React from 'react';
 import './style.css';
 
-const API = 'http://caihackemailactivism.azurewebsites.net';
+const API = 'https://caihackemailactivism.azurewebsites.net';
 
 class Form extends React.Component {
 
@@ -65,7 +65,7 @@ class Form extends React.Component {
 
     alert(response.status);
 
-    this.displayData.unshift(<div id="display-data"><pre>To: <b>{this.state.recipient}</b> </pre><pre>{this.state.description}</pre><a href={link}>Send Email</a></div>);
+    this.displayData.unshift(<div id="display-data"><pre>To: <b>{this.state.recipient}</b> </pre><pre>{this.state.description.substring(0, min(100, this.state.description.length))}</pre><a href={link}>Send Email</a></div>);
     this.setState({
       showdata : this.displayData,
       description : ""
